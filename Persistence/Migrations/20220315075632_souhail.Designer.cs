@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
@@ -11,9 +12,10 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220315075632_souhail")]
+    partial class souhail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -160,35 +162,11 @@ namespace Persistence.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("Roles", "dbo");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "Recruiter",
-                            ConcurrencyStamp = "47cd79cc-ede3-495d-9cd7-e9f48c05bd79",
-                            Name = "Recruiter",
-                            NormalizedName = "RECRUITER"
-                        },
-                        new
-                        {
-                            Id = "Admin",
-                            ConcurrencyStamp = "bf762e1c-266f-420c-a998-0938292f7c7d",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "Employee",
-                            ConcurrencyStamp = "eac9cbba-2509-4d21-9cc7-6f412dc929b8",
-                            Name = "Employee",
-                            NormalizedName = "EMPLOYE"
-                        });
                 });
 
             modelBuilder.Entity("Domain.Entities.Identity.User", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
@@ -436,6 +414,48 @@ namespace Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("SocialNetworks", "dbo");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("IdentityRole", "dbo");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "Recruiter",
+                            ConcurrencyStamp = "e1ff3d6c-3758-4aa3-83c9-af3cc86547f0",
+                            Name = "Recruiter",
+                            NormalizedName = "RECRUITER"
+                        },
+                        new
+                        {
+                            Id = "Admin",
+                            ConcurrencyStamp = "9c71fb05-1690-439c-9e83-d3725c64c906",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "Employee",
+                            ConcurrencyStamp = "041d6c2c-e629-493d-a614-5fbba6b8d441",
+                            Name = "Employee",
+                            NormalizedName = "EMPLOYE"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

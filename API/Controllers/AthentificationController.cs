@@ -1,13 +1,16 @@
-﻿using Domain.Entities.Identity;
+﻿using Application.DTOs.User;
+using Application.Identity;
+using Domain.Entities.Identity;
 using Infrastructure.Mail;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Org.BouncyCastle.Crypto.Generators;
 using System.Globalization;
 using System.Net;
 using System.Net.Mail;
-
+using System.Text;
 namespace API.Controllers
 {
     /// <summary>
@@ -21,6 +24,7 @@ namespace API.Controllers
         private readonly IMailer _mailer;
         private readonly SignInManager<User> _signInManager;
         private readonly Microsoft.AspNetCore.Identity.UserManager<User> _userManager;
+        private readonly IAuthService _authService;
 
         private IdentityOptions Options { get; }
 
@@ -30,13 +34,14 @@ namespace API.Controllers
         public AuthenticationController(IConfiguration configuration, IMailer mailer, IOptions<IdentityOptions> options,
             
             SignInManager<User> signInManager,
-            Microsoft.AspNetCore.Identity.UserManager<User> userManager)
+            Microsoft.AspNetCore.Identity.UserManager<User> userManager,
+            IAuthService authService)
         {
             _configuration = configuration;
             _mailer = mailer;
             _signInManager = signInManager;
             _userManager = userManager;
-
+            _authService = authService;
             Options = options.Value;
 
 
@@ -53,38 +58,67 @@ namespace API.Controllers
             var user = await _userManager.FindByEmailAsync(model.Username) ??
                        await _userManager.FindByNameAsync(model.Username) ??
                        await _userManager.FindByLoginAsync("provider", model.Username);
+            
 
             if (user is null)
             {
                 return BadRequest(new { error = "_resources.LoginIncorrectCredentials" });
             }
 
-            var result = await _signInManager.PasswordSignInAsync(user, model.Password, false, true);
+          
+           
 
-            if (result.Succeeded)
+            var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password.ToString(), true ,false
+                );
+
+            var role = await _userManager.GetRolesAsync(user);
+
+            if (result.Succeeded )
             {
-                return Ok(new LoginResult());
+                return Ok(new LoginResult() { AuthData = _authService.GetAuthData(user, role.ToList() )});
             }
 
-            if (result.IsLockedOut)
-            {
-                return Ok(new LoginResult(false, user.LockoutEnd, ""));
-            }
 
             return BadRequest(new { error = "LoginIncorrectCredentials" });
         }
 
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(User model)
+        public async Task<IActionResult> Register(CreateUserDto model)
         {
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(model.Password);
+           
+            var user = new User()
+            {
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Genre = model.Genre,
+                BirthDate = model.BirthDate,
+                UserName = model.Email,
+                Position = model.Position,
+           
 
-            var result = await _userManager.CreateAsync(model);
+            };
+            var result = await _userManager.CreateAsync(user);
                 
 
             if (result.Succeeded)
             {
-                return Ok(result);
+                var res = await _userManager.AddPasswordAsync(user, model.Password);
+                
+
+                if (res.Succeeded)
+                {
+             var roleResult= await _userManager.AddToRoleAsync(user, "EMPLOYE");
+                    if (roleResult.Succeeded)
+                    {
+                        return Ok(result);
+                    }
+
+                    
+                }
+               
             }
 
             return BadRequest(new { error = "User Not Created" });
@@ -231,13 +265,16 @@ namespace API.Controllers
 
             public string Message { get; set; }
 
+            public AuthData AuthData { get; set; }
+
             public LoginResult(bool success = true) =>
                 Success = success;
 
-            public LoginResult(bool success, DateTimeOffset? lockoutEnd, string message) : this(success)
+            public LoginResult(bool success, DateTimeOffset? lockoutEnd, string message, AuthData authData) : this(success)
             {
                 LockoutEnd = lockoutEnd;
                 Message = message;
+                AuthData = authData;
             }
         }
         public class ResetPasswordModel : ResetPasswordBase
@@ -283,8 +320,6 @@ namespace API.Controllers
             }
         }
 
-        public class UserModel
-        {
-        }
+       
     }
 }

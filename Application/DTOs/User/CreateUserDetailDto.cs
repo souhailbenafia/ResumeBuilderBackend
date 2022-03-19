@@ -17,20 +17,23 @@ namespace Application.DTOs.User
 {
     public class CreateUserDetailDto : BaseDto
     {
-        public virtual IList<CertificationDto> Certifications { get; private set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Genre { get; set; }
+        public virtual IList<CertificationDto> Certifications { get;  set; }
 
-        public virtual IList<EducationDto> Educations { get; private set; }
+        public virtual IList<EducationDto> Educations { get;  set; }
 
-        public virtual IList<ExperienceDto> Experiences { get; private set; }
+        public virtual IList<ExperienceDto> Experiences { get;  set; }
 
-        public virtual IList<InterestDto> Interests { get; private set; }
+        public virtual IList<InterestDto> Interests { get;  set; }
 
-        public virtual IList<SkillDto> Skills { get; private set; }
+        public virtual IList<SkillDto> Skills { get;  set; }
 
-        public virtual IList<LanguageDto> Languages { get; private set; }
+        public virtual IList<LanguageDto> Languages { get;  set; }
 
-        public virtual IList<ProjectDto> Projects { get; private set; }
+        public virtual IList<ProjectDto> Projects { get;  set; }
 
-        public virtual IList<SocialNetworkDto> SocialNetworks { get; private set; }
+        public virtual IList<SocialNetworkDto> SocialNetworks { get;  set; }
     }
 }

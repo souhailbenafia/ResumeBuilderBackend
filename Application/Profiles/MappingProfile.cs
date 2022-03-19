@@ -29,6 +29,7 @@ namespace Application.Profiles
             CreateMap<SocialNetwork , SocialNetworkDto>().ReverseMap();
             CreateMap<User, CreateUserDetailDto>().ReverseMap();
             CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<User, CreateUserDto>().ReverseMap();
 
 
         }

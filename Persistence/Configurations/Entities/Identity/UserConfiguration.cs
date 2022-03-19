@@ -14,7 +14,8 @@ namespace Persistence.Configurations.Entities.Identity
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.HasKey(x => x.Id);
+            builder.HasKey(x =>  x.Id);
+            builder.Property(e => e.Id).ValueGeneratedOnAdd();            
 
           builder.HasMany(c => c.Certifications)
             .WithOne(e => e.User);

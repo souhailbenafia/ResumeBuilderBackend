@@ -6,10 +6,11 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System.Text;
 using Newtonsoft.Json.Converters;
+using Infrastructure;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Application.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 
 builder.Services.AddCors(o =>
 {
@@ -19,18 +20,20 @@ builder.Services.AddCors(o =>
         .AllowAnyHeader());
 });
 
-
+// Add services to the container.
 builder.Services.ConfigurePersistenceServices(builder.Configuration);
 builder.Services.ConfigureApplicationServices();
 builder.Services.AddControllers();
+
 builder.Services.AddIdentity<User, Role>(options => options.User.RequireUniqueEmail = true)
                 .AddEntityFrameworkStores<AppDbContext>()
                 .AddDefaultTokenProviders();
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.Password.RequiredLength = 8;
-    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(60);
-    options.Lockout.MaxFailedAccessAttempts = 3;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+    options.Lockout.MaxFailedAccessAttempts = 10;
     options.Lockout.AllowedForNewUsers = true;
 });
 
@@ -45,18 +48,25 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.ExpireTimeSpan = TimeSpan.FromDays(10);
 });
 
-builder.Services.AddAuthentication().AddJwtBearer(options =>
-{
-    options.Authority = "";
-    options.RequireHttpsMetadata = true;
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(builder.Configuration.GetValue<string>("Authentication:Jwt:Key"))),
-        ValidateIssuer = false,
-        ValidateAudience = false
-    };
-});
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(builder.Configuration.GetValue<string>("JWTSecretKey"))
+                        )
+                    };
+                });
+
+
+builder.Services.AddScoped<IAuthService, AuthService>();
+
 builder.Services.ConfigureApplicationCookie(options =>
     options.Events.OnRedirectToAccessDenied =
         options.Events.OnRedirectToLogin = c =>
@@ -82,6 +92,8 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 // Antiforgery
 builder.Services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
 
+builder.Services.AddMailing(builder.Environment);
+
 builder.Services.AddMvc()
             .AddNewtonsoftJson(options =>
             {
@@ -89,6 +101,7 @@ builder.Services.AddMvc()
                 options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
                 options.SerializerSettings.Converters.Add(new StringEnumConverter());
             });
+
 
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

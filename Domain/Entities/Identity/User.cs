@@ -7,11 +7,15 @@ namespace Domain.Entities.Identity
 {
     public class User : IdentityUser<string>
     {
-        public DateTime BirthDate { get;  private set; }
+        public string FirstName { get; set; }
 
-        public String   BirthPlace { get; private  set; }
+        public string LastName { get;  set; }
 
-        public String   Position { get; private set; }
+        public string Genre { get;  set; }
+
+        public DateTime BirthDate { get;   set; }
+
+        public String   Position { get;  set; }
 
         public virtual IList<Certification> Certifications{ get; private set; }
 

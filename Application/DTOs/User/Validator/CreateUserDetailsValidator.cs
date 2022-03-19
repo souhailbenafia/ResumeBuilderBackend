@@ -10,7 +10,7 @@ namespace Application.DTOs.User.Validator
     public  class CreateUserDetailsValidator : AbstractValidator<CreateUserDetailDto>
     {
         public CreateUserDetailsValidator()
-        {
+        {/*
             RuleFor(p => p.Skills)
              .NotEmpty().WithMessage("{PropertyName} is required.")
              .NotNull();
@@ -32,6 +32,8 @@ namespace Application.DTOs.User.Validator
             RuleFor(p => p.Projects)
             .NotEmpty().WithMessage("{PropertyName} is required.")
             .NotNull();
+            */
+            
         }
     }
 }
