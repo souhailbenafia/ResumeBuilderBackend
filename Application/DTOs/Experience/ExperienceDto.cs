@@ -20,6 +20,6 @@ namespace Application.DTOs.Experience
 
         public string Location { get; set; }
 
-        public int UserId { get; set; }
+        public string UserId { get; set; }
     }
 }

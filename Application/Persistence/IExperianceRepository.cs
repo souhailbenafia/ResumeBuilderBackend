@@ -9,5 +9,6 @@ namespace Application.Persistence
 {
     public interface IExperianceRepository : IGenericRepository<Experience>
     {
+        Task<IReadOnlyList<Experience>> GetAllExperienceByUser(string userId);
     }
 }

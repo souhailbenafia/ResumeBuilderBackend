@@ -9,5 +9,6 @@ namespace Application.Persistence
 {
     public interface ISkillRepository : IGenericRepository<Skill>
     {
+        Task<IReadOnlyList<Skill>> GetAllSkillsByUser(string userId);
     }
 }

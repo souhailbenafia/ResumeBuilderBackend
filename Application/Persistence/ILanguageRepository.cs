@@ -9,6 +9,6 @@ namespace Application.Persistence
 {
     public interface ILanguageRepository : IGenericRepository<Language>
     {
-        
+        Task<IReadOnlyList<Language>> GetAllLanguageByUser(string userId);
     }
 }

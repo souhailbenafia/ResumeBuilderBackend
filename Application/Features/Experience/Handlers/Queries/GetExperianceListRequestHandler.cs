@@ -23,7 +23,7 @@ namespace Application.Features.Experience.Handlers.Queries
         }
         public async Task<List<ExperienceDto>> Handle(GetExperianceListRequest request, CancellationToken cancellationToken)
         {
-            var experiances = await _unitOfWork.experianceRepository.GetAll();
+            var experiances = await _unitOfWork.experianceRepository.GetAllExperienceByUser(request.Id);
             return _mapper.Map<List<ExperienceDto>>(experiances);
         }
     }

@@ -10,6 +10,6 @@ namespace Application.Features.Experience.Request.Queries
 {
     public class GetExperianceListRequest : IRequest<List<ExperienceDto>>
     {
-
+        public string Id { get; set; }
     }
 }

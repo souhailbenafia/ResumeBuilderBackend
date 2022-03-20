@@ -60,16 +60,6 @@ namespace Persistence.Repositories
         public object CustomClaimTypes { get; private set; }
 
 
-
-
-
-        /*  public ILeaveAllocationRepository LeaveAllocationRepository => 
-              _leaveAllocationRepository ??= new LeaveAllocationRepository(_context);
-          public ILeaveTypeRepository LeaveTypeRepository => 
-              _leaveTypeRepository ??= new LeaveTypeRepository(_context);
-          public ILeaveRequestRepository LeaveRequestRepository => 
-              _leaveRequestRepository ??= new LeaveRequestRepository(_context);*/
-
         public void Dispose()
         {
             _context.Dispose();
@@ -78,10 +68,9 @@ namespace Persistence.Repositories
 
         public async Task Save() 
         {
-            /*  var username = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+             //var username = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
 
-              await  _context.SaveChangesAsync(username);*/
-            throw new NotImplementedException();
+              await  _context.SaveChangesAsync();
         }
 
         public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

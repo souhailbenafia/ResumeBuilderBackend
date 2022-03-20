@@ -11,6 +11,6 @@ namespace Application.Features.Certification.Request.Commands
 {
     public class CreateCertificationCommande : IRequest<BaseCommandResponse>
     {
-        public CertificationDto certificationDto { get; set; }
+        public CreateCertificationDto createCertificationDto { get; set; }
     }
 }

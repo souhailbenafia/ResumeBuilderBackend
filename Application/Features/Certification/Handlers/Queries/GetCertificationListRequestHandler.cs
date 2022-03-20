@@ -24,7 +24,7 @@ namespace Application.Features.Certification.Handlers.Queries
 
         public async Task<List<CertificationDto>> Handle(GetCertificationListRequest request, CancellationToken cancellationToken)
         {
-            var certifications = await _unitOfWork.certificationRepository.GetAll(); 
+            var certifications = await _unitOfWork.certificationRepository.GetAllCertificationByUser(request.Id); 
             return _mapper.Map<List<CertificationDto>>(certifications);
         }
     }

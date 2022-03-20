@@ -12,7 +12,7 @@ namespace Application.DTOs.SocialNetwork
     {
         public string Link { get; private set; }
 
-        public int UserId { get; private set; }
+        public string UserId { get; private set; }
 
         public int Network { get; private set; }
 

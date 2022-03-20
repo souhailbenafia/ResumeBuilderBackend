@@ -1,5 +1,6 @@
 ﻿using Application.Persistence;
 using Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,11 @@ namespace Persistence.Repositories
         public LanguageRepository(AppDbContext dbContext) : base(dbContext)
         {
             _context = dbContext;
+        }
+
+        public async Task<IReadOnlyList<Language>> GetAllLanguageByUser(string userId)
+        {
+            return await _context.Set<Language>().Include(s => s.User).Where(s => s.UserId.Equals(userId)).ToListAsync<Language>();
         }
     }
 }

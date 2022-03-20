@@ -10,6 +10,6 @@ namespace Application.Features.Skill.Request.Queries
 {
     public class GetSkillListRequest : IRequest<List<SkillDto>>
     {
-
+        public string Id { get; set; }
     }
 }

@@ -9,6 +9,6 @@ namespace Application.Persistence
 {
     public interface IEducationRepository : IGenericRepository<Education>
     {
-
+        Task<IReadOnlyList<Education>> GetAllEducationByUser(string userId);
     }
 }

@@ -10,5 +10,6 @@ namespace Application.Features.Language.Request.Queries
 {
     public class GetLanguageListRequest : IRequest<List<LanguageDto>>
     {
+        public string Id { get; set; }
     }
 }

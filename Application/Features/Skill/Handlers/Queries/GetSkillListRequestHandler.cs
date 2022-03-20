@@ -19,7 +19,7 @@ namespace Application.Features.Skill.Handlers.Queries
 
         public async Task<List<SkillDto>> Handle(GetSkillListRequest request, CancellationToken cancellationToken)
         {
-            var skills = await _unitOfWork.skillRepository.GetAll();
+            var skills = await _unitOfWork.skillRepository.GetAllSkillsByUser(request.Id);
             return _mapper.Map<List<SkillDto>>(skills);
         }
     }

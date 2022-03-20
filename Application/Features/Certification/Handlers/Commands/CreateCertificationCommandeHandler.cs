@@ -27,8 +27,8 @@ namespace Application.Features.Certification.Handlers.Commands
         public async Task<BaseCommandResponse> Handle(CreateCertificationCommande request, CancellationToken cancellationToken)
         {
             var response = new BaseCommandResponse();
-            var validator = new CertificationDtoValidator();
-            var validationResult = await validator.ValidateAsync(request.certificationDto);
+            var validator = new CreateCertificationValidator();
+            var validationResult = await validator.ValidateAsync(request.createCertificationDto);
             if (validationResult.IsValid == false)
             {
                 response.Success = false;
@@ -37,7 +37,7 @@ namespace Application.Features.Certification.Handlers.Commands
             }
             else
             {
-                var certification = _mapper.Map<Domain.Entities.Certification>(request.certificationDto);
+                var certification = _mapper.Map<Domain.Entities.Certification>(request.createCertificationDto);
 
                 certification = await _unitOfWork.certificationRepository.Add(certification);
                 await _unitOfWork.Save();

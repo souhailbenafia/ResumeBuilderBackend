@@ -19,7 +19,7 @@ namespace Application.Features.LeaveTypes.Handlers.Queries
 
         public async Task<List<LanguageDto>> Handle(GetLanguageListRequest request, CancellationToken cancellationToken)
         {
-            var languages = await _unitOfWork.languageRepository.GetAll();
+            var languages = await _unitOfWork.languageRepository.GetAllLanguageByUser(request.Id);
             return _mapper.Map<List<LanguageDto>>(languages);
         }
     }

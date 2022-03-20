@@ -14,6 +14,6 @@ namespace Application.DTOs.Skill
 
         public string Keywords { get; set; }
 
-        public int UserId { get; set; }
+        public string UserId { get; set; }
     }
 }

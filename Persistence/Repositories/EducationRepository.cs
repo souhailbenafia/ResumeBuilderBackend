@@ -1,10 +1,8 @@
 ﻿using Application.Persistence;
 using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Persistence.Repositories
 {
@@ -15,5 +13,12 @@ namespace Persistence.Repositories
         {
             _context = dbContext;   
         }
+
+        public async Task<IReadOnlyList<Education>> GetAllEducationByUser(string userId)
+        {
+            return await _context.Set<Education>().Include(s => s.User).Where(s => s.UserId.Equals(userId)).ToListAsync<Education>();
+        }
+
+        
     }
 }

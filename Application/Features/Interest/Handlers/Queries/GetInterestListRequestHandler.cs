@@ -24,7 +24,7 @@ namespace Application.Features.Interest.Handlers.Queries
 
         public async Task<List<InterestDto>> Handle(GetInterestListRequest request, CancellationToken cancellationToken)
         {
-            var intersets = await _unitOfWork.interestRepository.GetAll();
+            var intersets = await _unitOfWork.interestRepository.GetAllInterestByUser(request.Id);
             return _mapper.Map<List<InterestDto>>(intersets);
         }
     }

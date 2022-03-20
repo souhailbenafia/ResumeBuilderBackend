@@ -25,7 +25,7 @@ namespace Application.Features.Education.Handlers.Queries
         public async Task<List<EducationDto>> Handle(GetEducationListRequest request, CancellationToken cancellationToken)
         
         {
-            var educations = await _unitOfWork.educationRepository.GetAll();   
+            var educations = await _unitOfWork.educationRepository.GetAllEducationByUser(request.Id);   
            return _mapper.Map<List<EducationDto>>(educations);  
         }
     }

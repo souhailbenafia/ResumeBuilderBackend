@@ -25,7 +25,7 @@ namespace Application.Features.LeaveTypes.Handlers.Queries
 
         public async Task<List<ProjectDto>> Handle(GetProjectListRequest request, CancellationToken cancellationToken)
         {
-            var Projects = await _unitOfWork.projectRepository.GetAll();
+            var Projects = await _unitOfWork.projectRepository.GetAllProjectByUser(request.Id);
             return _mapper.Map<List<ProjectDto>>(Projects);
         }
     }

@@ -10,5 +10,6 @@ namespace Application.Features.Interest.Request.Queries
 {
     public class GetInterestListRequest : IRequest<List<InterestDto>>
     {
+        public string Id { get; set; }
     }
 }

@@ -9,5 +9,6 @@ namespace Application.Persistence
 {
     public interface ISocialNetworkRepository : IGenericRepository<SocialNetwork>
     {
+        Task<IReadOnlyList<SocialNetwork>> GetAllSocialNetworkByUser(string userId);
     }
 }

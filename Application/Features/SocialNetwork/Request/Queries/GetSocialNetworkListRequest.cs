@@ -11,6 +11,6 @@ namespace Application.Features.SocialNetwork.Request.Queries
 {
     public class GetSocialNetworkListRequest : IRequest<List<SocialNetworkDto>>
     {
-
+        public string Id { get; set; }
     }
 }

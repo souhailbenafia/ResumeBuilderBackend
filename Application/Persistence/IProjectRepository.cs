@@ -9,5 +9,6 @@ namespace Application.Persistence
 {
     public interface IProjectRepository : IGenericRepository<Project>
     {
+        Task<IReadOnlyList<Project>> GetAllProjectByUser(string userId);
     }
 }

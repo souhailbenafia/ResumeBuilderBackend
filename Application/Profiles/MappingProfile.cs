@@ -20,6 +20,7 @@ namespace Application.Profiles
         public MappingProfile()
         {
             CreateMap<Certification, CertificationDto>().ReverseMap();
+            CreateMap<Certification,CreateCertificationDto>().ReverseMap();
             CreateMap<Education, EducationDto>().ReverseMap();
             CreateMap<Experience, ExperienceDto>().ReverseMap();
             CreateMap<Language, LanguageDto>().ReverseMap();

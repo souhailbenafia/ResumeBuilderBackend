@@ -10,6 +10,6 @@ namespace Application.Features.Certification.Request.Queries
 {
     public class GetCertificationListRequest : IRequest<List<CertificationDto>>
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
     }
 }

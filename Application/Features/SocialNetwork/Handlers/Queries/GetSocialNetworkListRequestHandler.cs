@@ -21,7 +21,7 @@ namespace Application.Features.SocialNetwork.Handlers.Queries
 
         public async Task<List<SocialNetworkDto>> Handle(GetSocialNetworkListRequest request, CancellationToken cancellationToken)
         {
-            var SocialNetworks = await _unitOfWork.socialNetworkRepository.GetAll();
+            var SocialNetworks = await _unitOfWork.socialNetworkRepository.GetAllSocialNetworkByUser(request.Id);
             return _mapper.Map<List<SocialNetworkDto>>(SocialNetworks);
         }
     }

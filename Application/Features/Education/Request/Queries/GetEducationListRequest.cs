@@ -10,6 +10,6 @@ namespace Application.Features.Education.Request.Queries
 {
     public class GetEducationListRequest : IRequest<List<EducationDto>>
     {
-
+        public string Id { get; set; }
     }
 }
