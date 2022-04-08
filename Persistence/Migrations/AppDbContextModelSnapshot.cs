@@ -61,20 +61,12 @@ namespace Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Diploma")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("End")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("Localisation")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Start")
                         .HasColumnType("datetime2");
@@ -165,21 +157,21 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = "Recruiter",
-                            ConcurrencyStamp = "47cd79cc-ede3-495d-9cd7-e9f48c05bd79",
+                            ConcurrencyStamp = "1a07f973-680f-44d6-aafb-04890afcacc3",
                             Name = "Recruiter",
                             NormalizedName = "RECRUITER"
                         },
                         new
                         {
                             Id = "Admin",
-                            ConcurrencyStamp = "bf762e1c-266f-420c-a998-0938292f7c7d",
+                            ConcurrencyStamp = "2ad2c6a4-d3b9-4a0b-ace2-f2ad7d618fb2",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "Employee",
-                            ConcurrencyStamp = "eac9cbba-2509-4d21-9cc7-6f412dc929b8",
+                            ConcurrencyStamp = "c3226eff-406b-4153-bba9-3513fddbc1a4",
                             Name = "Employee",
                             NormalizedName = "EMPLOYE"
                         });
@@ -289,6 +281,41 @@ namespace Persistence.Migrations
                     b.ToTable("UserRoles", "dbo");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Info", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("info")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("yearOfExpirence")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Infos", "dbo");
+                });
+
             modelBuilder.Entity("Domain.Entities.Interest", b =>
                 {
                     b.Property<int>("Id")
@@ -385,10 +412,6 @@ namespace Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Keywords")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Level")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -420,8 +443,9 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Network")
-                        .HasColumnType("int");
+                    b.Property<string>("Network")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -581,6 +605,17 @@ namespace Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Info", b =>
+                {
+                    b.HasOne("Domain.Entities.Identity.User", "User")
+                        .WithOne("Info")
+                        .HasForeignKey("Domain.Entities.Info", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Domain.Entities.Interest", b =>
                 {
                     b.HasOne("Domain.Entities.Identity.User", "User")
@@ -679,6 +714,9 @@ namespace Persistence.Migrations
                     b.Navigation("Educations");
 
                     b.Navigation("Experiences");
+
+                    b.Navigation("Info")
+                        .IsRequired();
 
                     b.Navigation("Interests");
 

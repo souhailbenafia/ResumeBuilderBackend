@@ -30,12 +30,12 @@ namespace Application.Features.Interest.Handlers.Commands
             var validatorResult = await validator.ValidateAsync(request.interestDto);
             if (validatorResult.IsValid == false)
                 throw new ValidationException(validatorResult);
-            var interest = await _unitOfWork.experianceRepository.Get(request.interestDto.Id);
+            var interest = await _unitOfWork.interestRepository.Get(request.interestDto.Id);
             if (interest == null) throw new NotFoundException(nameof(interest), request.interestDto.Id);
 
             _mapper.Map(request.interestDto, interest);
 
-            await _unitOfWork.experianceRepository.Update(interest);
+            await _unitOfWork.interestRepository.Update(interest);
             await _unitOfWork.Save();
 
 

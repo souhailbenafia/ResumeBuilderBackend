@@ -12,7 +12,5 @@ namespace HR.LeaveManagement.Application.DTOs.Interest
 
         public string UserId { get; set; }
 
-
-
     }
 }

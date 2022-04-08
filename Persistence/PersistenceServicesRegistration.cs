@@ -32,6 +32,7 @@ namespace Persistence
             services.AddScoped<ISkillRepository, SkillRepository>();
             services.AddScoped<IUserRepository, UserRpository>();
             services.AddScoped<ISocialNetworkRepository, SocialNetworkRepository>();
+            services.AddScoped<IInfoRepository, InfoRepository > ();
 
 
             return services;

@@ -20,6 +20,7 @@ namespace Persistence.Repositories
         private  SkillRepository _SkillRepository;
         private  SocialNetworkRepository _SocialNetworkRepository;
         private  UserRpository _UserRepository;
+        private  InfoRepository _InfoRepository;
 
         private readonly AppDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -56,6 +57,8 @@ namespace Persistence.Repositories
 
 
         public IUserRepository userRepository => _UserRepository ??= new UserRpository(_context);
+
+        public IInfoRepository infoRepository => _InfoRepository ??= new InfoRepository(_context);
 
         public object CustomClaimTypes { get; private set; }
 

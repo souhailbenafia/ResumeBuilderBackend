@@ -11,6 +11,7 @@ using Application.DTOs.Language;
 using Application.DTOs.SocialNetwork;
 using Domain.Entities.Identity;
 using Application.DTOs.User;
+using Application.DTOs.Info;
 
 namespace Application.Profiles
 {
@@ -31,6 +32,7 @@ namespace Application.Profiles
             CreateMap<User, CreateUserDetailDto>().ReverseMap();
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<User, CreateUserDto>().ReverseMap();
+            CreateMap<Info, InfoDto>().ReverseMap();
 
 
         }

@@ -16,13 +16,9 @@ namespace Domain.Entities
 
         public DateTime End { get; private set; }
 
-        public string Description { get; private set; }
-
         public string Diploma { get; private set; }
 
         public string UserId { get; private set; }
-
-        public string Localisation { get; private set; }
 
         public virtual User User { get; private set; }
     }

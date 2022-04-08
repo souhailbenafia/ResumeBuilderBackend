@@ -10,14 +10,13 @@ namespace Application.DTOs.SocialNetwork
 {
     public class SocialNetworkDto : BaseDto
     {
-        public string Link { get; private set; }
+        public string Link { get;  set; }
 
-        public string UserId { get; private set; }
+        public string UserId { get;  set; }
 
-        public int Network { get; private set; }
+        public string Network { get;  set; }
 
-        public string Username { get; private set; }
+        public string Username { get;  set; }
 
-        public virtual UserDto User { get; private set; }
     }
 }

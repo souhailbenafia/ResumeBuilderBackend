@@ -18,6 +18,7 @@ namespace Application.Persistence
         ISkillRepository skillRepository { get; }
         ISocialNetworkRepository socialNetworkRepository { get; }
         IUserRepository userRepository { get; }
+        IInfoRepository infoRepository { get; }
         Task Save();
 
         // <summary>

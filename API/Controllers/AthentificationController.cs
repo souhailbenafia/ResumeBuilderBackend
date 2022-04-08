@@ -97,6 +97,8 @@ namespace API.Controllers
                 BirthDate = model.BirthDate,
                 UserName = model.Email,
                 Position = model.Position,
+                PhoneNumber = model.Phone
+
            
 
             };

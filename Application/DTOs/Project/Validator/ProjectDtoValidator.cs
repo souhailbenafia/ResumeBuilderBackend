@@ -17,8 +17,7 @@ namespace Application.DTOs.Project.Validator
              .NotEmpty().WithMessage("{PropertyName} is required.").NotNull();
             RuleFor(p => p.link)
              .NotEmpty().WithMessage("{PropertyName} is required.").NotNull();
-            RuleFor(p => p.Date)
-             .NotEmpty().WithMessage("{PropertyName} is required.").NotNull();
+           
         }
     }
 }

@@ -11,14 +11,14 @@ namespace Application.DTOs.SocialNetwork.Validator
     {
         public SocialNetworkDtoValidator()
         {
-            RuleFor(p => p.Network)
+           /* RuleFor(p => p.Network)
              .NotEmpty().WithMessage("{PropertyName} is required.").NotNull();
 
             RuleFor(p => p.Username)
              .NotEmpty().WithMessage("{PropertyName} is required.").NotNull();
 
             RuleFor(p => p.Link)
-             .NotEmpty().WithMessage("{PropertyName} is required.").NotNull();
+             .NotEmpty().WithMessage("{PropertyName} is required.").NotNull();*/
         }
     }
 }

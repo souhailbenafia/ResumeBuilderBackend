@@ -33,6 +33,8 @@ namespace Persistence
         public DbSet<Project> Projects { get; set; }
         public DbSet<SocialNetwork> SocialNetworks { get; set; }
 
+        public DbSet<Info> Infos { get; set; }
+
         public ICertificationRepository certificationRepository => throw new NotImplementedException();
 
         public IEducationRepository educationRepository => throw new NotImplementedException();
@@ -50,6 +52,7 @@ namespace Persistence
         public ISocialNetworkRepository socialNetworkRepository => throw new NotImplementedException();
 
         public IUserRepository userRepository => throw new NotImplementedException();
+        public IInfoRepository infoRepository => throw new NotImplementedException();
 
 
         #endregion
@@ -75,6 +78,7 @@ namespace Persistence
 
             // Configuration
             builder.ApplyConfiguration(new CertificationConfiguration());
+            builder.ApplyConfiguration(new InfoConfiguration());
             builder.ApplyConfiguration(new EducationConfiguration());
             builder.ApplyConfiguration(new ExperienceConfiguration());
             builder.ApplyConfiguration(new InterestConfiguration());

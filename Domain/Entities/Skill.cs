@@ -10,7 +10,6 @@ namespace Domain.Entities
 
         public string Level  { get; private set; }
 
-        public string Keywords{ get; private set; }
 
         public string UserId { get; private set; }
 

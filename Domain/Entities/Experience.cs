@@ -1,4 +1,7 @@
-﻿using Domain.Common;
+﻿
+
+
+using Domain.Common;
 using Domain.Entities.Identity;
 using System;
 using System.Collections.Generic;
@@ -9,6 +12,7 @@ namespace Domain.Entities
     public  class Experience : BaseEntity
 
     {
+        
         public string  Position { get; private set; }
         
         public DateTime Start { get; private set; }

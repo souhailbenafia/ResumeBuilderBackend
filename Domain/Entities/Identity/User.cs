@@ -33,6 +33,8 @@ namespace Domain.Entities.Identity
 
         public virtual IList<SocialNetwork> SocialNetworks{ get; private set; }
 
+        public virtual Info Info{ get; private set; }
+
     }
    
 }

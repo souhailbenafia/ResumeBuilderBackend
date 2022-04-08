@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <BaseOutputPath>G:\etude c#\ResumeBuilder\API\bin12</BaseOutputPath>
+    <BaseOutputPath>G:\etude c#\ResumeBuilder\API\bin13</BaseOutputPath>
   </PropertyGroup>
 
   <ItemGroup>

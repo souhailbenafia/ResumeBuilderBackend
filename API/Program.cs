@@ -9,6 +9,7 @@ using Newtonsoft.Json.Converters;
 using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Application.Identity;
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -126,12 +127,17 @@ else
     app.UseHsts();
 }
 
+
+
 // Static Files
 app.UseStaticFiles(new StaticFileOptions
 {
+
+  //  FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Images")),
+    RequestPath = "/Images",
     OnPrepareResponse = context =>
         context.Context.Response.Headers.Add("Cache-Control", "public,max-age=31536000")
-});
+}) ;
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

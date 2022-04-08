@@ -15,8 +15,6 @@ namespace Application.DTOs.Project
 
         public string link { get; set; }
 
-        public Date Date { get; set; }
-
         public string UserId { get; set; }
 
     }

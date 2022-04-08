@@ -14,7 +14,7 @@ namespace Domain.Entities
 
         public string UserId { get; private set; }
 
-        public int  Network { get; private set; }
+        public string  Network { get; private set; }
 
         public string Username { get; private set; }
 

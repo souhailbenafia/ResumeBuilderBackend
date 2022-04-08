@@ -12,7 +12,6 @@ namespace Application.DTOs.Skill
 
         public string Level { get; set; }
 
-        public string Keywords { get; set; }
 
         public string UserId { get; set; }
     }

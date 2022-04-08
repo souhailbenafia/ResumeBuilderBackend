@@ -18,8 +18,6 @@ namespace Application.DTOs.Skill.Validator
             RuleFor(p => p.Name)
              .NotEmpty().WithMessage("{PropertyName} is required.").NotNull();
 
-            RuleFor(p => p.Keywords)
-             .NotEmpty().WithMessage("{PropertyName} is required.").NotNull();
 
         }
     }

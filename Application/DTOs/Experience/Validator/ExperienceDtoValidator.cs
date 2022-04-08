@@ -28,8 +28,9 @@ namespace Application.DTOs.Experience.Validator
 
             RuleFor(p => p.End)
              .NotEmpty().WithMessage("{PropertyName} is required.").NotNull();
+          
 
-           
+
         }
 
     }

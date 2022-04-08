@@ -11,11 +11,8 @@ namespace Application.DTOs.Education.Validator
     {
         public EducationDtoValidator()
         {
-            RuleFor(x => x.Description).NotEmpty().WithMessage("{PropertyName} is required.").NotNull()
-               .MaximumLength(100).WithMessage("{PropertyName} must not exceed {ComparisonValue} characters.");
+           
             RuleFor(p => p.University)
-               .NotEmpty().WithMessage("{PropertyName} is required.").NotNull();
-            RuleFor(p => p.Localisation)
                .NotEmpty().WithMessage("{PropertyName} is required.").NotNull();
             RuleFor(p => p.Diploma)
                .NotEmpty().WithMessage("{PropertyName} is required.").NotNull();
