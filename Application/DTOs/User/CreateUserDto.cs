@@ -18,7 +18,8 @@ namespace Application.DTOs.User
         public bool IsPasswordConfirmed { get; set; } = false;
         public string Position { get; set; } = "";
 
-        public string Phone { get; set; }   
+        public string Phone { get; set; }
+        public string Societe { get; set; }
 
     }
 }

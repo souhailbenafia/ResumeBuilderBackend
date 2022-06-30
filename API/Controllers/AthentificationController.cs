@@ -86,8 +86,6 @@ namespace API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register(CreateUserDto model)
         {
-            string passwordHash = BCrypt.Net.BCrypt.HashPassword(model.Password);
-           
             var user = new User()
             {
                 Email = model.Email,
@@ -98,6 +96,7 @@ namespace API.Controllers
                 UserName = model.Email,
                 Position = model.Position,
                 PhoneNumber = model.Phone
+
 
            
 
@@ -121,6 +120,50 @@ namespace API.Controllers
                     
                 }
                
+            }
+
+            return BadRequest(new { error = "User Not Created" });
+        }
+
+
+
+        [HttpPost("registerRecruter")]
+        public async Task<IActionResult> RegisterRecruter(CreateUserDto model)
+        {
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(model.Password);
+
+            var user = new User()
+            {
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Position = model.Position,
+                //Societe = model.Societe,
+                UserName = model.Email,
+                PhoneNumber = model.Phone
+
+
+
+            };
+            var result = await _userManager.CreateAsync(user);
+
+
+            if (result.Succeeded)
+            {
+                var res = await _userManager.AddPasswordAsync(user, model.Password);
+
+
+                if (res.Succeeded)
+                {
+                    var roleResult = await _userManager.AddToRoleAsync(user, "RECRUITER");
+                    if (roleResult.Succeeded)
+                    {
+                        return Ok(result);
+                    }
+
+
+                }
+
             }
 
             return BadRequest(new { error = "User Not Created" });

@@ -1,4 +1,6 @@
-﻿using Application.Persistence;
+﻿using Application.DTOs.User;
+using Application.Features.User.Request.Queries;
+using Application.Persistence;
 using Domain.Entities.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,7 +19,16 @@ namespace Persistence.Repositories
             _appDbContext = dbContext;
         }
 
-
+        public async Task<List<User>> GetAllUser()
+        
+        {
+            var UserDetails = await _appDbContext.Users.
+                Where(u=>u.Roles.Any(u=>u.RoleId == "Employee"))
+                .Include(u => u.Info)
+                .Include(u => u.Skills)
+                .ToListAsync();
+            return UserDetails;
+        }
 
         public async Task<User> GetUserDetailById(string id)
         {
@@ -29,6 +40,7 @@ namespace Persistence.Repositories
                 .Include(u => u.SocialNetworks)
                 .Include(u => u.Languages)
                 .Include(u => u.Projects)
+                .Include(u => u.Info)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             return UserDetails;
@@ -38,6 +50,20 @@ namespace Persistence.Repositories
         {
        var users = await _appDbContext.Users.ToListAsync();
             return users;
+        }
+
+       
+
+      public async Task<PagedList<User>> GetUsersP(UserParameters userParameters)
+        {
+            return  PagedList<User>.ToPagedList(FindAll().OrderBy(on => on.FirstName),
+        userParameters.PageNumber,
+        userParameters.PageSize);
+        }
+
+        PagedList<User> IUserRepository.GetUsersP(UserParameters userParameters)
+        {
+            throw new NotImplementedException();
         }
     }
 }

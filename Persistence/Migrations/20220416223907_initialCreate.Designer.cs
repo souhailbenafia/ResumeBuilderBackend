@@ -12,8 +12,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220323091903_sss")]
-    partial class sss
+    [Migration("20220416223907_initialCreate")]
+    partial class initialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -159,21 +159,21 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = "Recruiter",
-                            ConcurrencyStamp = "5c63d154-4390-475a-a458-05c1be2012d7",
+                            ConcurrencyStamp = "338d1cff-9b14-449f-a156-beb7d0413e6a",
                             Name = "Recruiter",
                             NormalizedName = "RECRUITER"
                         },
                         new
                         {
                             Id = "Admin",
-                            ConcurrencyStamp = "8b730863-baca-40e8-882a-6ed84fe68690",
+                            ConcurrencyStamp = "dd6c429d-4dad-4ed6-a10d-93e1df559af5",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "Employee",
-                            ConcurrencyStamp = "b906c494-7f20-4ff0-adbc-5986cb26b0dc",
+                            ConcurrencyStamp = "11684a78-d6a0-45bb-8f07-2663770084c1",
                             Name = "Employee",
                             NormalizedName = "EMPLOYE"
                         });
@@ -209,6 +209,9 @@ namespace Persistence.Migrations
                     b.Property<string>("Genre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("InfoId")
+                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -274,13 +277,48 @@ namespace Persistence.Migrations
 
                     b.HasKey("UserId", "RoleId");
 
-                    b.HasIndex("RoleId")
-                        .IsUnique();
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("UserRoles", "dbo");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Info", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("imageSource")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("info")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("yearOfExpirence")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("UserRoles", "dbo");
+                    b.ToTable("Infos", "dbo");
                 });
 
             modelBuilder.Entity("Domain.Entities.Interest", b =>
@@ -379,10 +417,6 @@ namespace Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Keywords")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Level")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -414,8 +448,9 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Network")
-                        .HasColumnType("int");
+                    b.Property<string>("Network")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -559,18 +594,29 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.Identity.UserRole", b =>
                 {
                     b.HasOne("Domain.Entities.Identity.Role", "Role")
-                        .WithOne()
-                        .HasForeignKey("Domain.Entities.Identity.UserRole", "RoleId")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.Identity.User", "User")
-                        .WithOne()
-                        .HasForeignKey("Domain.Entities.Identity.UserRole", "UserId")
+                        .WithMany("Roles")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Role");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Info", b =>
+                {
+                    b.HasOne("Domain.Entities.Identity.User", "User")
+                        .WithOne("Info")
+                        .HasForeignKey("Domain.Entities.Info", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -666,6 +712,11 @@ namespace Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Domain.Entities.Identity.Role", b =>
+                {
+                    b.Navigation("UserRoles");
+                });
+
             modelBuilder.Entity("Domain.Entities.Identity.User", b =>
                 {
                     b.Navigation("Certifications");
@@ -674,11 +725,16 @@ namespace Persistence.Migrations
 
                     b.Navigation("Experiences");
 
+                    b.Navigation("Info")
+                        .IsRequired();
+
                     b.Navigation("Interests");
 
                     b.Navigation("Languages");
 
                     b.Navigation("Projects");
+
+                    b.Navigation("Roles");
 
                     b.Navigation("Skills");
 

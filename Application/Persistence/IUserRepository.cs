@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Identity;
+﻿using Application.Features.User.Request.Queries;
+using Domain.Entities.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,12 @@ namespace Application.Persistence
         Task<User> GetUserDetailById(string id);
 
         Task<List<User>> GetUsers();
+
+        public PagedList<User> GetUsersP(UserParameters userParameters);
+
+        public Task<List<User>> GetAllUser();
+
+
 
     }
 }

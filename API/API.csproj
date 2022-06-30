@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <BaseOutputPath>G:\etude c#\ResumeBuilder\API\bin13</BaseOutputPath>
+    <BaseOutputPath>G:\etude c#\ResumeBuilder\API\bin1234</BaseOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,6 +31,10 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\Persistence\Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\Images\" />
   </ItemGroup>
 
 </Project>

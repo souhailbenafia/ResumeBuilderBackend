@@ -157,21 +157,21 @@ namespace Persistence.Migrations
                         new
                         {
                             Id = "Recruiter",
-                            ConcurrencyStamp = "1a07f973-680f-44d6-aafb-04890afcacc3",
+                            ConcurrencyStamp = "338d1cff-9b14-449f-a156-beb7d0413e6a",
                             Name = "Recruiter",
                             NormalizedName = "RECRUITER"
                         },
                         new
                         {
                             Id = "Admin",
-                            ConcurrencyStamp = "2ad2c6a4-d3b9-4a0b-ace2-f2ad7d618fb2",
+                            ConcurrencyStamp = "dd6c429d-4dad-4ed6-a10d-93e1df559af5",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = "Employee",
-                            ConcurrencyStamp = "c3226eff-406b-4153-bba9-3513fddbc1a4",
+                            ConcurrencyStamp = "11684a78-d6a0-45bb-8f07-2663770084c1",
                             Name = "Employee",
                             NormalizedName = "EMPLOYE"
                         });
@@ -207,6 +207,9 @@ namespace Persistence.Migrations
                     b.Property<string>("Genre")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("InfoId")
+                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -272,11 +275,7 @@ namespace Persistence.Migrations
 
                     b.HasKey("UserId", "RoleId");
 
-                    b.HasIndex("RoleId")
-                        .IsUnique();
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("RoleId");
 
                     b.ToTable("UserRoles", "dbo");
                 });
@@ -298,6 +297,10 @@ namespace Persistence.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("imageSource")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -589,14 +592,14 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.Identity.UserRole", b =>
                 {
                     b.HasOne("Domain.Entities.Identity.Role", "Role")
-                        .WithOne()
-                        .HasForeignKey("Domain.Entities.Identity.UserRole", "RoleId")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.Identity.User", "User")
-                        .WithOne()
-                        .HasForeignKey("Domain.Entities.Identity.UserRole", "UserId")
+                        .WithMany("Roles")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -707,6 +710,11 @@ namespace Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Domain.Entities.Identity.Role", b =>
+                {
+                    b.Navigation("UserRoles");
+                });
+
             modelBuilder.Entity("Domain.Entities.Identity.User", b =>
                 {
                     b.Navigation("Certifications");
@@ -723,6 +731,8 @@ namespace Persistence.Migrations
                     b.Navigation("Languages");
 
                     b.Navigation("Projects");
+
+                    b.Navigation("Roles");
 
                     b.Navigation("Skills");
 

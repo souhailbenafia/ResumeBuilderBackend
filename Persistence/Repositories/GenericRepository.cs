@@ -49,7 +49,12 @@ namespace Persistence.Repositories
         {
             _dbContext.Entry(entity).State = EntityState.Modified;
         }
-        
+
+        public IQueryable<T> FindAll()
+        {
+            return this._dbContext.Set<T>();
+        }
+
 
     }
 }

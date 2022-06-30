@@ -4,6 +4,7 @@ using Application.Features.User.Request.Queries;
 using Application.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace API.Controllers
 {
@@ -12,6 +13,9 @@ namespace API.Controllers
     public class UserDetailsController : ControllerBase
     {
         private readonly IMediator _mediator;
+
+      
+        
         public UserDetailsController(IMediator mediator)
         {
             _mediator = mediator;
@@ -26,10 +30,10 @@ namespace API.Controllers
         }
 
         // GET: api/<UserDetailsController>
-        [HttpGet]
-        public async Task<ActionResult<UserDto>> GetUserDetails(int id)
+        [HttpGet("get")]
+        public async Task<ActionResult<UserDto>> GetUserDetails(string id)
         {
-            var userDetail = await _mediator.Send(new GetUserDetailsCommand()); 
+            var userDetail = await _mediator.Send(new GetUserDetailsCommand() { Id = id }); 
             return Ok(userDetail);
         }
 
@@ -41,7 +45,37 @@ namespace API.Controllers
             var response = await _mediator.Send(command);
             return Ok(response);
         }
+
+        [HttpGet("getAll")]
+        public async Task<ActionResult<List<UserDto>>> GetUsers([FromQuery] UserParameters usrerParameters)
+        {
             
+            var Users = await _mediator.Send(new GetAllRequest(){ UserParameters = usrerParameters });
+
+            var metadata = new
+            {
+                Users.TotalCount,
+                Users.PageSize,
+                Users.CurrentPage,
+                Users.TotalPages,
+                Users.HasNext,
+                Users.HasPrevious
+            };
+
+            Response.Headers.Add("X-Pagination", JsonConvert.SerializeObject(metadata));
+            return Ok(Users);
+
+          
+        }
+
+        [HttpGet("getAllUsers")]
+        public async Task<ActionResult<List<DevDto>>> GetUsers()
+        {
+            var userDetail = await _mediator.Send(new GetRequest());
+            return Ok(userDetail);
+        }
+
+
 
 
 

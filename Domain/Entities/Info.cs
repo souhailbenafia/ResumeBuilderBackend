@@ -14,6 +14,8 @@ namespace Domain.Entities
 
         public string description { get; set; }
 
+        public string imageSource { get; set; }
+
         public string address { get; private set; }
 
         public int yearOfExpirence { get; set; }

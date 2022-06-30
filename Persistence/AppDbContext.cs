@@ -86,8 +86,8 @@ namespace Persistence
             builder.ApplyConfiguration(new SkillConfiguration());
             builder.ApplyConfiguration(new LanguageConfiguration());
             builder.ApplyConfiguration(new SocialNetworkConfiguration());
-            builder.ApplyConfiguration(new UserRoleConfiguration());
             builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new UserRoleConfiguration());
             builder.ApplyConfiguration(new RoleConfiguration());
 
             // Identity

@@ -33,6 +33,12 @@ namespace Persistence.Configurations.Entities.Identity
                      NormalizedName = "EMPLOYE"
                  }
             );
-        }
+
+            builder.HasMany(e => e.UserRoles)
+                .WithOne(e => e.Role)
+                .HasForeignKey(ur => ur.RoleId)
+                .IsRequired();
+        
+    }
     }
 }

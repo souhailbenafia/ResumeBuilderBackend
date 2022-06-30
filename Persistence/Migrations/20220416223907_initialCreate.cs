@@ -5,27 +5,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Persistence.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class initialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
                 name: "dbo");
-
-            migrationBuilder.CreateTable(
-                name: "IdentityRole",
-                schema: "dbo",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_IdentityRole", x => x.Id);
-                });
 
             migrationBuilder.CreateTable(
                 name: "Roles",
@@ -48,9 +33,12 @@ namespace Persistence.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Genre = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    BirthPlace = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Position = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    InfoId = table.Column<int>(type: "int", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -128,10 +116,8 @@ namespace Persistence.Migrations
                     University = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Start = table.Column<DateTime>(type: "datetime2", nullable: false),
                     End = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Diploma = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Localisation = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -165,6 +151,32 @@ namespace Persistence.Migrations
                     table.PrimaryKey("PK_Experiences", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Experiences_Users_UserId",
+                        column: x => x.UserId,
+                        principalSchema: "dbo",
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Infos",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    info = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    imageSource = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    yearOfExpirence = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Infos", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Infos_Users_UserId",
                         column: x => x.UserId,
                         principalSchema: "dbo",
                         principalTable: "Users",
@@ -252,7 +264,6 @@ namespace Persistence.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Level = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Keywords = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -276,7 +287,7 @@ namespace Persistence.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Link = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Network = table.Column<int>(type: "int", nullable: false),
+                    Network = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
@@ -387,21 +398,21 @@ namespace Persistence.Migrations
 
             migrationBuilder.InsertData(
                 schema: "dbo",
-                table: "IdentityRole",
+                table: "Roles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "Admin", "ac69bf6e-fca5-4c3a-b186-5f15de3b66a5", "Admin", "ADMIN" });
+                values: new object[] { "Admin", "dd6c429d-4dad-4ed6-a10d-93e1df559af5", "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
-                table: "IdentityRole",
+                table: "Roles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "Employee", "e1970aaa-0103-40a7-8711-fbbace75ea95", "Employee", "EMPLOYE" });
+                values: new object[] { "Employee", "11684a78-d6a0-45bb-8f07-2663770084c1", "Employee", "EMPLOYE" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
-                table: "IdentityRole",
+                table: "Roles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "Recruiter", "a8aa6fcc-5dfc-4e1d-845d-abaed1586d31", "Recruiter", "RECRUITER" });
+                values: new object[] { "Recruiter", "338d1cff-9b14-449f-a156-beb7d0413e6a", "Recruiter", "RECRUITER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Certifications_UserId",
@@ -420,6 +431,13 @@ namespace Persistence.Migrations
                 schema: "dbo",
                 table: "Experiences",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Infos_UserId",
+                schema: "dbo",
+                table: "Infos",
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Interests_UserId",
@@ -481,15 +499,7 @@ namespace Persistence.Migrations
                 name: "IX_UserRoles_RoleId",
                 schema: "dbo",
                 table: "UserRoles",
-                column: "RoleId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserRoles_UserId",
-                schema: "dbo",
-                table: "UserRoles",
-                column: "UserId",
-                unique: true);
+                column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
@@ -521,7 +531,7 @@ namespace Persistence.Migrations
                 schema: "dbo");
 
             migrationBuilder.DropTable(
-                name: "IdentityRole",
+                name: "Infos",
                 schema: "dbo");
 
             migrationBuilder.DropTable(

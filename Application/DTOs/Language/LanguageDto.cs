@@ -6,8 +6,7 @@ using System.Text;
 namespace Application.DTOs.Language
 {
     public class LanguageDto : BaseDto
-    {
-
+    { 
         public string Languge { get; set; }
 
         public string Niveau { get; set; }

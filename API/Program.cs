@@ -10,6 +10,7 @@ using Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Application.Identity;
 using Microsoft.Extensions.FileProviders;
+using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -90,6 +91,12 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 });
 
 
+builder.Services.Configure<FormOptions>(o => {
+    o.ValueLengthLimit = int.MaxValue;
+    o.MultipartBodyLengthLimit = int.MaxValue;
+    o.MemoryBufferThreshold = int.MaxValue;
+});
+
 // Antiforgery
 builder.Services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
 
@@ -130,14 +137,12 @@ else
 
 
 // Static Files
-app.UseStaticFiles(new StaticFileOptions
+app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions()
 {
-
-  //  FileProvider = new PhysicalFileProvider(Path.Combine(env.ContentRootPath, "Images")),
-    RequestPath = "/Images",
-    OnPrepareResponse = context =>
-        context.Context.Response.Headers.Add("Cache-Control", "public,max-age=31536000")
-}) ;
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
+    RequestPath = new PathString("/Resources")
+});
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

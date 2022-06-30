@@ -10,7 +10,7 @@ namespace Domain.Entities.Identity
         public string FirstName { get; set; }
 
         public string LastName { get;  set; }
-
+        
         public string Genre { get;  set; }
 
         public DateTime BirthDate { get;   set; }
@@ -33,7 +33,11 @@ namespace Domain.Entities.Identity
 
         public virtual IList<SocialNetwork> SocialNetworks{ get; private set; }
 
-        public virtual Info Info{ get; private set; }
+        public virtual Info Info { get;  set; }
+
+        public int InfoId { get; set; } 
+
+        public virtual IList<UserRole> Roles { get; set; }
 
     }
    

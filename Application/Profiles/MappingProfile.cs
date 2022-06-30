@@ -32,6 +32,7 @@ namespace Application.Profiles
             CreateMap<User, CreateUserDetailDto>().ReverseMap();
             CreateMap<User, UserDto>().ReverseMap();
             CreateMap<User, CreateUserDto>().ReverseMap();
+            CreateMap<User, DevDto>().ReverseMap();
             CreateMap<Info, InfoDto>().ReverseMap();
 
 

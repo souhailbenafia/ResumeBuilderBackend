@@ -15,8 +15,9 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs.User
 {
-    public class CreateUserDetailDto : BaseDto
+    public class CreateUserDetailDto 
     {
+        public string Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Genre { get; set; }

@@ -40,6 +40,11 @@ namespace Persistence.Configurations.Entities.Identity
 
             builder.HasMany(c => c.SocialNetworks)
             .WithOne(e => e.User);
+
+            builder.HasMany(e => e.Roles)
+                  .WithOne(e => e.User)
+                  .HasForeignKey(ur => ur.UserId)
+                  .IsRequired();
         }
     }
 }
